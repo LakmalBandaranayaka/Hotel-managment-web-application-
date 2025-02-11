@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hotel Drinks Bar</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Drinks Menu</h1>
+
+        <div class="menu">
+            <!-- Menu items with example drink options -->
+            <div class="item">
+    <img src="images/wot.jpg" alt="Vodka" class="drink-image">
+    <h3>Vodka</h3>
+    <p>Small Glass: Rs.5000</p>
+    <p>Regular Glass: Rs.7000</p>
+    <p>Large Glass: Rs.10000</p>
+</div>
+<div class="item">
+    <img src="images/win.jpg" alt="Wine" class="drink-image">
+    <h3>Wine</h3>
+    <p>Small Glass: Rs.3750</p>
+    <p>Regular Glass: Rs.4275</p>
+    <p>Large Glass: Rs.5350</p>
+</div>
+<div class="item">
+    <img src="images/bee.jpg" alt="Beer" class="drink-image">
+    <h3>Beer</h3>
+    <p>Small Glass: Rs.800</p>
+    <p>Regular Glass: Rs.1500</p>
+    <p>Large Glass: Rs.2300</p>
+</div>
+
+            <!-- Add more drinks here -->
+        </div>
+        
+        <div class="order-section">
+            <div class="menu-item">
+                <select id="item">
+                    <option value="Vodka">Vodka</option>
+                    <option value="Wine">Wine</option>
+                    <option value="Beer">Beer</option>
+                    <!-- Add more drink options here -->
+                </select>
+            </div>
+            <div class="menu-item">
+                <select id="Size">
+                    <option value="small">Small</option>
+                    <option value="regular">Regular</option>
+                    <option value="large">Large</option>
+                </select>
+            </div>
+            <div class="menu-item">
+                <select id="spriteLevel">
+                    <option value="Low sprite">Low sprite</option>
+                    <option value="Medium sprite">Medium sprite</option>
+                    <option value="High sprite">High sprite</option>
+                </select>
+            </div>
+            <div class="menu-item">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" class="amount" min="1" value="1">
+            </div>
+            <button onclick="addToBill()">Add to Bill</button>
+            <button onclick="clearBill()">Clear Bill</button>
+            <div class="bill">
+                <h2>Bill</h2>
+                <ul id="billList"></ul>
+                <p>Total Bill: <span id="totalAmount">0</span></p>
+            </div>
+            <br>
+            <button onclick="printBill()">Print Bill</button>
+        </div>
+    </div>
+    <style>
+.item {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.drink-image {
+    width: 100%; /* Adjust as needed */
+    max-width: 200px; /* Set a maximum width */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto; /* Center the image */
+}
+/* style.css */
+h1 {
+    font-size: 2.5em; /* Adjust the font size as needed */
+    font-family: 'Arial', sans-serif; /* Change the font family */
+    font-weight: bold; /* Make the font bold */
+    color: #333; /* Set the text color */
+    text-align: center; /* Center align the text */
+    margin: 20px 0; /* Add margin around the element */
+}
+
+
+    </style>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBV7ozqJT6spMv4sdHWkcI5CJQqvqqFPfc",
+            authDomain: "dulari12345-1b8e8.firebaseapp.com",
+            databaseURL: "https://dulari12345-1b8e8-default-rtdb.firebaseio.com",
+            projectId: "dulari12345-1b8e8",
+            storageBucket: "dulari12345-1b8e8.appspot.com",
+            messagingSenderId: "647211164063",
+            appId: "1:647211164063:web:fe10012c529d85f7151daa"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const prices = {
+            "Vodka": {
+                small: 5000,
+                regular: 7000,
+                large: 10000,
+            },
+            "Wine": {
+                small: 3750,
+                regular: 4275,
+                large: 5350,
+            },
+            "Beer": {
+                small: 800,
+                regular: 1500,
+                large: 2300,
+            }
+            // Add more drink prices here
+        };
+
+        const bill = [];
+
+        window.addToBill = function() {
+            const selectedItem = document.getElementById("item").value;
+            const selectedSize = document.getElementById("Size").value;
+            const selectedSpriteLevel = document.getElementById("spriteLevel").value;
+            const amount = parseInt(document.getElementById("amount").value);
+
+            const price = prices[selectedItem][selectedSize];
+            const total = price * amount;
+
+            const newBillItem = {
+                item: selectedItem,
+                size: selectedSize,
+                spriteLevel: selectedSpriteLevel,
+                amount: amount,
+                total: total
+            };
+
+            bill.push(newBillItem);
+            updateBill();
+            saveToFirebase(newBillItem); // Save bill item to Firebase
+        }
+
+        function updateBill() {
+            const billList = document.getElementById("billList");
+            billList.innerHTML = "";
+
+            let totalAmount = 0;
+
+            bill.forEach((billItem) => {
+                const li = document.createElement("li");
+                li.innerText = `${billItem.amount} x ${billItem.item} (${billItem.size}, ${billItem.spriteLevel}) - Rs.${billItem.total}`;
+                billList.appendChild(li);
+
+                totalAmount += billItem.total;
+            });
+
+            document.getElementById("totalAmount").innerText = totalAmount;
+        }
+        window.clearBill = function() {
+    // Clear the bill array
+    bill.length = 0;
+    
+    // Reset the total amount
+    document.getElementById("totalAmount").innerText = 0;
+
+    // Clear the list of bill items from the UI
+    const billList = document.getElementById("billList");
+    billList.innerHTML = "";
+}
+
+
+window.printBill = function() {
+            const printContent = document.querySelector('.bill').innerHTML;
+            const printWindow = window.open('', '', 'height=400,width=600');
+            printWindow.document.write('<html><head><title>Bill</title>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();  // Ensures the content is fully written before printing
+            printWindow.focus();  // Focus on the print window
+            printWindow.print();
+        }
+
+        function saveToFirebase(billItem) {
+            const newRef = ref(db, 'bar_item/' + Date.now()); // Using timestamp as unique key
+            set(newRef, billItem)
+                .then(() => console.log("Order saved to Firebase"))
+                .catch((error) => console.error("Error saving order to Firebase: ", error));
+        }
+    </script>
+</body>
+</html>

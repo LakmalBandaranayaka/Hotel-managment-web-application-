@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodybuilding Practices</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .tips, .nutrition {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .tips div, .nutrition div {
+            flex-basis: 48%;
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .workouts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .workouts div {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .motivational {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .motivational p {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        label {
+            display: inline-block;
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            width: 110px;
+        }
+        input,
+        select {
+            width: 180px;
+            height: 30px;
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        button {
+            height: 30px;
+            width: 70px;
+            color: rgb(5, 5, 5);
+            margin-right: 5px;
+        }
+        @media(max-width: 768px) {
+            .tips div, .nutrition div {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bodybuilding Practices</h1>
+</header>
+
+
+<nav>
+    <a href="#training-tips">Training Tips</a>
+    <a href="#workout-routines">Workout Routines</a>
+    <a href="#nutrition">Nutrition</a>
+    <a href="#motivation">Motivation</a>
+</nav>
+
+<div class="item" style="text-align: center; font-size: 16px;">
+    <img src="images/stre.jpg" alt="r" style="max-width: 100%; height: auto;">
+</div>
+
+
+<div class="container">
+    <section id="training-tips">
+        <h2>Training Tips</h2>
+        <div class="tips">
+            <div>
+                <h3>Progressive Overload</h3>
+                <p>Gradually increasing the weight or resistance in your workouts is key to muscle growth. Aim to challenge your muscles every week.</p>
+            </div>
+            <div>
+                <h3>Consistency is Key</h3>
+                <p>Maintaining a consistent workout schedule will help you see the best results. Try to train each muscle group at least twice a week.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="workout-routines">
+        <h2>Workout Routines</h2>
+        <div class="workouts">
+            <div>
+                <h3>Push Workout</h3>
+                <ul>
+                    <li>Bench Press - 4 sets of 8-10 reps</li>
+                    <li>Overhead Press - 4 sets of 8-10 reps</li>
+                    <li>Tricep Dips - 4 sets of 10-12 reps</li>
+                    <li>Incline Dumbbell Press - 4 sets of 8-10 reps</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Pull Workout</h3>
+                <ul>
+                    <li>Pull-Ups - 4 sets of 8-10 reps</li>
+                    <li>Barbell Rows - 4 sets of 8-10 reps</li>
+                    <li>Deadlifts - 4 sets of 6-8 reps</li>
+                    <li>Face Pulls - 4 sets of 10-12 reps</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Leg Workout</h3>
+                <ul>
+                    <li>Squats - 4 sets of 8-10 reps</li>
+                    <li>Lunges - 4 sets of 10-12 reps</li>
+                    <li>Leg Press - 4 sets of 8-10 reps</li>
+                    <li>Calf Raises - 4 sets of 12-15 reps</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="nutrition">
+        <h2>Nutrition Advice</h2>
+        <div class="item" style="text-align: center; font-size: 16px;">
+            <img src="images/girl.jpg" alt="r" style="max-width: 160%; height: auto;">
+        </div>
+        <div class="nutrition">
+            <div>
+                <h3>High Protein Diet</h3>
+                <p>Protein is essential for muscle repair and growth. Include sources like chicken, fish, lean meats, and plant-based proteins in your diet.</p>
+            </div>
+            <div>
+                <h3>Hydration is Important</h3>
+                <p>Staying hydrated is crucial for performance and recovery. Aim to drink at least 3-4 liters of water per day, especially during intense workouts.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="motivation" class="motivational">
+        <h2>Stay Motivated</h2>
+        <p>"Success is not always about greatness. It's about consistency. Consistent hard work gains success. Greatness will come." - Dwayne Johnson</p>
+    </section>
+</div>
+
+<footer>
+    <p>&copy; Apply Bodybuilding Services.</p>
+</footer>
+
+<div class="form-container">
+    <label for="fnameInp">First Name</label>
+    <input type="text" id="fnameInp">
+    <br><br>
+
+    <label for="lnameInp">Last Name</label>
+    <input type="text" id="lnameInp">
+    <br><br>
+
+    <label for="DeptInp">Age</label>
+    <select id="DeptInp">
+        <option value="10 - 20">10 - 20</option>
+        <option value="20 - 30">20 - 30</option>
+        <option value="30 - 40">30 - 40</option>
+        <option value="50 - 75">50 - 75</option>
+    </select>
+    <br><br>
+
+    <label for="SwimInp">Gender</label>
+    <select id="SwimInp">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+    <br><br>
+
+    <label for="CnicInp">CNIC No</label>
+    <input type="number" id="CnicInp">
+    <br><br>
+
+    <button id="AddBtn">Add</button>
+    <button id="RetBtn">Retrieve</button>
+    <button id="UpdBtn">Update</button>
+    <button id="DelBtn">Delete</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref, child, get, set, update, remove } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBV7ozqJT6spMv4sdHWkcI5CJQqvqqFPfc",
+        authDomain: "dulari12345-1b8e8.firebaseapp.com",
+        databaseURL: "https://dulari12345-1b8e8-default-rtdb.firebaseio.com",
+        projectId: "dulari12345-1b8e8",
+        storageBucket: "dulari12345-1b8e8.appspot.com",
+        messagingSenderId: "647211164063",
+        appId: "1:647211164063:web:fe10012c529d85f7151daa"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // DOM elements
+    const fnameInp = document.getElementById('fnameInp');
+    const lnameInp = document.getElementById('lnameInp');
+    const DeptInp = document.getElementById('DeptInp');
+    const SwimInp = document.getElementById('SwimInp');
+    const CnicInp = document.getElementById('CnicInp');
+
+    const AddBtn = document.getElementById('AddBtn');
+    const RetBtn = document.getElementById('RetBtn');
+    const UpdBtn = document.getElementById('UpdBtn');
+    const DelBtn = document.getElementById('DelBtn');
+
+    // Add employee data to the database
+    function addData() {
+        const cnic = CnicInp.value.trim();
+        if (!cnic) {
+            alert("Please enter a valid CNIC number.");
+            return;
+        }
+
+        set(ref(db, 'Body Building/' + cnic), {
+            nameofemployee: { 
+                firstname: fnameInp.value.trim(), 
+                lastname: lnameInp.value.trim() 
+            },
+            Age: DeptInp.value,
+            Gender: (SwimInp.value),
+            cnic: Number(cnic)
+        }).then(() => {
+            alert("Data added successfully.");
+            clearForm();
+        }).catch((error) => {
+            alert("Failed to add data. Error: " + error.message);
+        });
+    }
+
+    // Retrieve employee data
+    function retData() {
+        const cnic = CnicInp.value.trim();
+        if (!cnic) {
+            alert("Please enter a valid CNIC number.");
+            return;
+        }
+
+        const dbRef = ref(db);
+        get(child(dbRef, 'Body Building/' + cnic)).then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                fnameInp.value = data.nameofemployee.firstname;
+                lnameInp.value = data.nameofemployee.lastname;
+                DeptInp.value = data.Age;
+                SwimInp.value = data.Gender;
+            } else {
+                alert("Employee does not exist.");
+            }
+        }).catch((error) => {
+            alert("Failed to retrieve data. Error: " + error.message);
+        });
+    }
+
+    // Update employee data
+    function updateData() {
+        const cnic = CnicInp.value.trim();
+        if (!cnic) {
+            alert("Please enter a valid CNIC number.");
+            return;
+        }
+
+        update(ref(db, 'Body Building/' + cnic), {
+            nameofemployee: { 
+                firstname: fnameInp.value.trim(), 
+                lastname: lnameInp.value.trim() 
+            },
+            Age: DeptInp.value,
+            Gender: (SwimInp.value)
+        }).then(() => {
+            alert("Data updated successfully.");
+            clearForm();
+        }).catch((error) => {
+            alert("Failed to update data. Error: " + error.message);
+        });
+    }
+
+    // Delete employee data
+    function deleteData() {
+        const cnic = CnicInp.value.trim();
+        if (!cnic) {
+            alert("Please enter a valid CNIC number.");
+            return;
+        }
+
+        remove(ref(db, 'Body Building /' + cnic)).then(() => {
+            alert("Data deleted successfully.");
+            clearForm();
+        }).catch((error) => {
+            alert("Failed to delete data. Error: " + error.message);
+        });
+    }
+
+    // Clear form fields
+    function clearForm() {
+        fnameInp.value = '';
+        lnameInp.value = '';
+        DeptInp.value = '10 - 20';
+        SwimInp.value = 'yes';
+        CnicInp.value = '';
+    }
+
+    // Event listeners
+    AddBtn.addEventListener('click', addData);
+    RetBtn.addEventListener('click', retData);
+    UpdBtn.addEventListener('click', updateData);
+    DelBtn.addEventListener('click', deleteData);
+</script>
+
+</body>
+</html>

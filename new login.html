@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System - Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #003366;
+        }
+        .login-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #003366;
+        }
+        .login-box input[type="text"],
+        .login-box input[type="password"],
+        .login-box input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #003366;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .login-box button:hover {
+            background-color: #004080;
+        }
+        .login-box .switch-link {
+            color: #003366;
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+        }
+        .login-box .switch-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <a href="#" class="switch-link" onclick="toggleForm()">Create New Account</a>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBV7ozqJT6spMv4sdHWkcI5CJQqvqqFPfc",
+      authDomain: "dulari12345-1b8e8.firebaseapp.com",
+      databaseURL: "https://dulari12345-1b8e8-default-rtdb.firebaseio.com",
+      projectId: "dulari12345-1b8e8",
+      storageBucket: "dulari12345-1b8e8.appspot.com",
+      messagingSenderId: "647211164063",
+      appId: "1:647211164063:web:fe10012c529d85f7151daa"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getDatabase();
+
+    document.getElementById('login-form')?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, username, password);
+            console.log('User signed in:', userCredential.user);
+            // Redirect to dashboard or other page
+            window.location.href = 'dashboard.html';
+        } catch (error) {
+            console.error('Error signing in:', error.message);
+        }
+    });
+
+    document.querySelector('.login-box')?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        if (form.id === 'register-form') {
+            const username = document.getElementById('new-username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await set(ref(db, 'users/' + userCredential.user.uid), {
+                    username: username,
+                    email: email
+                });
+                console.log('User created:', userCredential.user);
+                // Redirect to dashboard or login page
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error('Error creating account:', error.message);
+            }
+        }
+    });
+
+    function toggleForm() {
+        const loginBox = document.querySelector('.login-box');
+        const isLogin = loginBox.querySelector('h2').textContent === 'Login';
+
+        if (isLogin) {
+            loginBox.innerHTML = `
+                <h2>Create Account</h2>
+                <form id="register-form">
+                    <input type="text" id="new-username" name="username" placeholder="Username" required>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <input type="password" id="new-password" name="password" placeholder="Password" required>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+                    <button type="submit">Create Account</button>
+                </form>
+                <a href="#" class="switch-link" onclick="toggleForm()">Already have an account? Login</a>
+            `;
+        } else {
+            loginBox.innerHTML = `
+                <h2>Login</h2>
+                <form id="login-form">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <a href="#" class="switch-link" onclick="toggleForm()">Create New Account</a>
+            `;
+        }
+    }
+</script>
+
+</body>
+</html>

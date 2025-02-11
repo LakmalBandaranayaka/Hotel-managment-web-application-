@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System - Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .payment-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #003366;
+        }
+        .payment-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .payment-box h2 {
+            margin-bottom: 20px;
+            color: #003366;
+        }
+        .payment-box input[type="text"],
+        .payment-box input[type="number"],
+        .payment-box input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .payment-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #003366;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .payment-box button:hover {
+            background-color: #004080;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <div class="payment-box">
+        <h2>Credit Card Payment (CAD)</h2>
+        <form id="payment-form" action="/process_payment" method="POST">
+            <input type="text" id="card-name" name="card-name" placeholder="Cardholder Name" required>
+            <input type="text" id="card-number" name="card-number" placeholder="Card Number" required maxlength="16" pattern="\d{16}">
+            <input type="date" id="expiry-date" name="expiry-date" placeholder="Expiry Date" required>
+            <input type="number" id="cvv" name="cvv" placeholder="CVV" required maxlength="3" pattern="\d{3}">
+            <input type="number" id="amount" name="amount" placeholder="Amount (CAD)" required>
+            <button type="submit">Pay Now</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

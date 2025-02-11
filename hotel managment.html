@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('1111.jpg'); /* Add your background image here */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #849ebbb2;
+        }
+        header {
+            background-color: #003366;
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #748291;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .login-icon {
+            margin-right: 20px;
+        }
+        .login-icon img {
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+        }
+        .banner {
+            background-image: url('hotel-banner.jpg'); /* Placeholder for banner image */
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            text-align: center;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .banner h1 {
+            font-size: 48px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+        main {
+            padding: 20px;
+        }
+        .category {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .category h2 {
+            font-size: 32px;
+            color: #ff5722;
+        }
+        .category-items {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .category-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 23%;
+            text-align: center;
+            color: #000;
+        }
+        .category-item img {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+        }
+        .category-item h3 {
+            margin-top: 15px;
+            color: #ff5722;
+        }
+        .category-item p {
+            color: #333;
+        }
+        footer {
+            background-color: #003366;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to Hotel Management System</h1>
+</header>
+
+<nav>
+    <div>
+        <a href="hotelmenu.html"> Coffee Menu</a>
+        <a href="hotelroom.html">Rooms Management</a>
+        <a href="feedback1.html">Guest Feedback</a>
+        <a href="hotelbodybilding.html">Bodybuilding</a>
+    </div>
+    <div class="login-icon">
+        <a href="login.html">
+            <img src="images/kaviya.webp" alt="Login"><a href="login.html">login</a>
+        </a>
+    </div>
+</nav>
+
+<div class="item">
+    <img src="images/kavii.jpg" alt="Frappuccino" style="width:1400px; height:auto; display:block; margin:0 auto;">
+
+</div>
+<script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBV7ozqJT6spMv4sdHWkcI5CJQqvqqFPfc",
+      authDomain: "dulari12345-1b8e8.firebaseapp.com",
+      databaseURL: "https://dulari12345-1b8e8-default-rtdb.firebaseio.com",
+      projectId: "dulari12345-1b8e8",
+      storageBucket: "dulari12345-1b8e8.appspot.com",
+      messagingSenderId: "647211164063",
+      appId: "1:647211164063:web:fe10012c529d85f7151daa"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Function to submit feedback to Firebase
+    function submitFeedback(event) {
+        event.preventDefault();  // Prevent the form from reloading the page
+
+        // Get form data
+        const name = document.getElementById("name").value;
+        const feedback = document.getElementById("feedback").value;
+
+        // Validate the input
+        if (!feedback) {
+            alert("Please provide your feedback before submitting.");
+            return;
+        }
+
+        // Create a reference to the feedback node in the database
+        const feedbackRef = ref(db, 'feedbacks/' + Date.now());
+
+        // Save feedback to Firebase
+        set(feedbackRef, {
+            name: name || "Anonymous",
+            feedback: feedback,
+            timestamp: new Date().toISOString()
+        })
+        .then(() => {
+            // Clear the form and show a success message
+            document.getElementById("feedback-form").reset();
+            alert("Thank you for your feedback!");
+        })
+        .catch((error) => {
+            console.error("Error submitting feedback: ", error);
+        });
+    }
+</script>
+</head>
+<body>
+
+<header>
+<h1>Hotel Items</h1>
+</header>
+
+<main>
+<section>
+
+</main>
+
+<main>
+    <section class="category">
+        <br>
+        <br>
+        <div class="category-items">
+            <div class="category-item">
+                <a href="hotelmenu.html">  <img src="images/food.jpg" alt="Occupancy Rate" style="width:300px; height:200px;"></a>
+                <h3>Food Menu</h3>
+                <p>Track real-time occupancy rate to optimize operations.</p>
+            </div>
+            <div class="category-item">
+                <a href="minibar.html"><img src="images/drink.jpg" alt="Occupancy Rate" style="width:300px; height:200px;"> </a>
+                <h3>Mini Bar</h3>
+                <p>View and manage all hotel bar and ordaring</p>
+            </div>
+            <div class="category-item">
+                <a href="hotelroom.html"><img src="images/room.jpg" alt="Occupancy Rate" style="width:300px; height:200px;"></a>
+                <h3>Rooms Management</h3>
+                <p>Handle room assignments and availability effortlessly.</p>
+            </div>
+            <div class="category-item">
+                <a href="payment.html"><img src="images/pay.jpg"  alt="Occupancy Rate" style="width:300px; height:200px;"></a>
+                <h3>Billing</h3>
+                <p>Manage guest billing and invoicing with ease.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Hotel Management System. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

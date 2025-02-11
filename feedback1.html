@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        header {
+            background-color: #003366;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        section {
+            margin: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #003366;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 600px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        form:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border 0.3s ease;
+        }
+        input:focus,
+        textarea:focus {
+            border-color: #003366;
+            outline: none;
+        }
+        input[type="submit"],
+        button {
+            background-color: #003366;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #0055a5;
+        }
+        @media (max-width: 600px) {
+            form {
+                width: 90%;
+                padding: 15px;
+            }
+            input,
+            textarea,
+            button {
+                padding: 10px;
+            }
+        }
+        #feedback-section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        #feedback-section h2 {
+            margin-top: 0;
+            color: #003366;
+        }
+        #feedback-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #feedback-list li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        #feedback-list li:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+        #feedback-list li strong {
+            color: #003366;
+        }
+        #feedback-navigation {
+            text-align: center;
+            margin: 20px;
+        }
+        #feedback-navigation button {
+            background-color: #003366;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        #feedback-navigation button:hover {
+            background-color: #0055a5;
+        }
+        #feedback-container {
+            text-align: center;
+            margin: 20px;
+        }
+        #feedback-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        #feedback-content p {
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Submit Your Feedback</h1>
+    </header>
+
+    <section>
+        <form id="hospital-form">
+            <label for="fnameInp">First Name</label>
+            <input type="text" id="fnameInp" placeholder="Enter first name" required><br>
+
+            <label for="lnameInp">Last Name</label>
+            <input type="text" id="lnameInp" placeholder="Enter last name" required><br>
+
+            <label for="CnicInp">CNIC No</label>
+            <input type="number" id="CnicInp" placeholder="Enter CNIC number" required><br>
+
+            <label for="name">Your Name (Feedback)</label>
+            <input type="text" id="name" placeholder="Enter your name" required><br>
+
+            <label for="feedback">Your Feedback</label>
+            <textarea id="feedback" placeholder="Enter your feedback" required></textarea><br>
+
+            <button type="button" id="AddBtn">Add and Submit Feedback</button>
+        </form>
+    </section>
+
+    <section id="feedback-section">
+        <h2>Feedback</h2>
+        <ul id="feedback-list"></ul>
+    </section>
+
+    <section id="feedback-container">
+        <div id="feedback-content">
+            <p id="feedback-text"></p>
+        </div>
+        <div id="feedback-navigation">
+            <button id="prev-btn">Previous</button>
+            <button id="next-btn">Next</button>
+        </div>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, set, onValue} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBV7ozqJT6spMv4sdHWkcI5CJQqvqqFPfc",
+            authDomain: "dulari12345-1b8e8.firebaseapp.com",
+            databaseURL: "https://dulari12345-1b8e8-default-rtdb.firebaseio.com",
+            projectId: "dulari12345-1b8e8",
+            storageBucket: "dulari12345-1b8e8.appspot.com",
+            messagingSenderId: "647211164063",
+            appId: "1:647211164063:web:fe10012c529d85f7151daa"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const fnameInp = document.getElementById('fnameInp');
+        const lnameInp = document.getElementById('lnameInp');
+        const CnicInp = document.getElementById('CnicInp');
+        const name = document.getElementById('name');
+        const feedback = document.getElementById('feedback');
+        const AddBtn = document.getElementById('AddBtn');
+
+        AddBtn.addEventListener('click', () => {
+            const cnic = CnicInp.value.trim();
+            const feedbackName = name.value.trim();
+            const feedbackText = feedback.value.trim();
+
+            if (!cnic) {
+                alert("Please enter a valid CNIC number.");
+                return;
+            }
+
+            if (!feedbackName || !feedbackText) {
+                alert("Please provide your name and feedback.");
+                return;
+            }
+
+            set(ref(db, 'feedback-user-details/' + cnic), {
+                nameofemployee: {
+                    firstname: fnameInp.value.trim(),
+                    lastname: lnameInp.value.trim()
+                },
+                cnic: Number(cnic)
+            }).then(() => {
+                alert("Employee data added successfully.");
+
+                return set(ref(db, 'feedbacks/' + Date.now()), {
+                    name: feedbackName,
+                    feedback: feedbackText,
+                    timestamp: new Date().toISOString()
+                });
+            }).then(() => {
+                alert("Thank you for your feedback!");
+                clearForm();
+            }).catch((error) => {
+                alert("Failed to process data. Error: " + error.message);
+            });
+        });
+
+        function clearForm() {
+            fnameInp.value = '';
+            lnameInp.value = '';
+            CnicInp.value = '';
+            name.value = '';
+            feedback.value = '';
+        }
+
+        let feedbacks = [];
+        let currentIndex = 0;
+
+        function displayFeedback() {
+        const feedbackList = document.getElementById('feedback-list');
+        feedbackList.innerHTML = ''; // Clear existing feedbacks
+
+        // Listen to changes in feedbacks node
+        const feedbackRef = ref(db, 'feedbacks/');
+        onValue(feedbackRef, (snapshot) => {
+            feedbacks = [];
+            if (snapshot.exists()) {
+                feedbacks = Object.values(snapshot.val()).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                if (feedbacks.length > 0) {
+                    displayCurrentFeedback();
+                } else {
+                    feedbackList.innerHTML = '<li>No feedback available.</li>';
+                }
+            } else {
+                feedbackList.innerHTML = '<li>No feedback available.</li>';
+            }
+        });
+    }
+
+    function displayCurrentFeedback() {
+        const feedbackText = document.getElementById('feedback-text');
+        const feedback = feedbacks[currentIndex];
+        feedbackText.textContent = `Name: ${feedback.name}, Feedback: ${feedback.feedback}, Date: ${new Date(feedback.timestamp).toLocaleString()}`;
+    }
+
+    function showPreviousFeedback() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            displayCurrentFeedback();
+        }
+    }
+
+    function showNextFeedback() {
+        if (currentIndex < feedbacks.length - 1) {
+            currentIndex++;
+            displayCurrentFeedback();
+        }
+    }
+
+    document.getElementById('prev-btn').addEventListener('click', showPreviousFeedback);
+    document.getElementById('next-btn').addEventListener('click', showNextFeedback);
+
+    document.addEventListener('DOMContentLoaded', displayFeedback);
+</script>
+
+</body>
+</html>

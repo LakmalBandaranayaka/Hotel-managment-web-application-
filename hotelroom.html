@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Room Booking System</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+            color: #fff;
+        }
+        #AddBtn { background-color: #28a745; }
+        #RetBtn { background-color: #007bff; }
+        #UpdBtn { background-color: #ffc107; }
+        #DelBtn { background-color: #dc3545; }
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-group">
+            <label for="guestNameInp">Guest Name</label>
+            <input type="text" id="guestNameInp">
+        </div>
+
+        <div class="form-group">
+            <label for="roomTypeInp">Room Type</label>
+            <select id="roomTypeInp">
+                <option value="Single">Single</option>
+                <option value="Double">Double</option>
+                <option value="Suite">Suite</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="checkInDateInp">Check-In Date</label>
+            <input type="date" id="checkInDateInp">
+        </div>
+
+        <div class="form-group">
+            <label for="checkOutDateInp">Check-Out Date</label>
+            <input type="date" id="checkOutDateInp">
+        </div>
+
+        <div class="form-group">
+            <label for="bookingIdInp">Booking ID</label>
+            <input type="text" id="bookingIdInp">
+        </div>
+
+        <button id="AddBtn">Add Booking</button>
+        <button id="RetBtn">Retrieve Booking</button>
+        <button id="UpdBtn">Update Booking</button>
+        <button id="DelBtn">Delete Booking</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, child, get, set, update, remove } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBV7ozqJT6spMv4sdHWkcI5CJQqvqqFPfc",
+          authDomain: "dulari12345-1b8e8.firebaseapp.com",
+          databaseURL: "https://dulari12345-1b8e8-default-rtdb.firebaseio.com",
+          projectId: "dulari12345-1b8e8",
+          storageBucket: "dulari12345-1b8e8.appspot.com",
+          messagingSenderId: "647211164063",
+          appId: "1:647211164063:web:fe10012c529d85f7151daa"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        // DOM elements
+        let guestNameInp = document.getElementById('guestNameInp');
+        let roomTypeInp = document.getElementById('roomTypeInp');
+        let checkInDateInp = document.getElementById('checkInDateInp');
+        let checkOutDateInp = document.getElementById('checkOutDateInp');
+        let bookingIdInp = document.getElementById('bookingIdInp');
+
+        let AddBtn = document.getElementById('AddBtn');
+        let RetBtn = document.getElementById('RetBtn');
+        let UpdBtn = document.getElementById('UpdBtn');
+        let DelBtn = document.getElementById('DelBtn');
+
+        function AddBooking() {
+            set(ref(db, 'BookingSet/' + bookingIdInp.value), {
+                guestName: guestNameInp.value,
+                roomType: roomTypeInp.value,
+                checkInDate: checkInDateInp.value,
+                checkOutDate: checkOutDateInp.value,
+                bookingId: bookingIdInp.value
+            }).then(() => {
+                alert("Booking added successfully");
+            }).catch((error) => {
+                alert("Unsuccessful");
+                console.log(error);
+            });
+        }
+
+        function RetBooking() {
+            const dbRef = ref(db);
+
+            get(child(dbRef, 'BookingSet/' + bookingIdInp.value)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    guestNameInp.value = snapshot.val().guestName;
+                    roomTypeInp.value = snapshot.val().roomType;
+                    checkInDateInp.value = snapshot.val().checkInDate;
+                    checkOutDateInp.value = snapshot.val().checkOutDate;
+                } else {
+                    alert("Booking does not exist");
+                }
+            }).catch((error) => {
+                alert("Unsuccessful");
+                console.log(error);
+            });
+        }
+
+        function UpdateBooking() {
+            update(ref(db, 'BookingSet/' + bookingIdInp.value), {
+                guestName: guestNameInp.value,
+                roomType: roomTypeInp.value,
+                checkInDate: checkInDateInp.value,
+                checkOutDate: checkOutDateInp.value
+            }).then(() => {
+                alert("Booking updated successfully");
+            }).catch((error) => {
+                alert("Unsuccessful");
+                console.log(error);
+            });
+        }
+
+        function DeleteBooking() {
+            remove(ref(db, 'BookingSet/' + bookingIdInp.value)).then(() => {
+                alert("Booking deleted successfully");
+            }).catch((error) => {
+                alert("Unsuccessful");
+                console.log(error);
+            });
+        }
+
+        // Event listeners
+        AddBtn.addEventListener('click', AddBooking);
+        RetBtn.addEventListener('click', RetBooking);
+        UpdBtn.addEventListener('click', UpdateBooking);
+        DelBtn.addEventListener('click', DeleteBooking);
+    </script>
+</body>
+</html>
